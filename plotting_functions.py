@@ -73,7 +73,7 @@ def plot_residuals_E_reso_gaussC(plots_dir, label, energy, e_nbins, e_range, mu,
                    verticalalignment='top', bbox=props)
     frame_data.set_xticklabels([])
     plt.ylabel("Entries")
-    plt.ylim(-500)
+    plt.ylim(-10)
 
     # set my own xlimits
     #lims = plt.xlim()
@@ -84,7 +84,10 @@ def plot_residuals_E_reso_gaussC(plots_dir, label, energy, e_nbins, e_range, mu,
     plt.ylim(-3.9,3.9)
     plt.xlim(e_range[0], e_range[1])
     plt.xlabel("E (pes)")
-    plt.show()
-    
-    plt.savefig(f'{plots_dir}/fit_energy_reso_{label}.png')
-    print('plots saved in '+ plots_dir)
+    #plt.show()
+
+    #fix: add save as option
+    #plt.savefig(f'{plots_dir}/fit_energy_reso_{label}.png')
+    #print('plots saved in '+ plots_dir)
+
+    return resolution, fig

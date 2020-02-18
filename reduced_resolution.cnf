@@ -1,7 +1,0 @@
-[Defaults]
-dir_in = dummy
-file_in = /Users/neus/current-work/ana-results/6721/kdst-reduced/reduced_6721_kdst_emin500.0_emax8000.0.h5
-dir_out = /Users/neus/DEMO++/work-2020/ana-results
-run     = 6721
-
-rfid    = 40

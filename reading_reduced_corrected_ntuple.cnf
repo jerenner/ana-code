@@ -1,0 +1,8 @@
+[Defaults]
+dir_in = dummy
+file_in = /Users/neus/DEMO++/work-2019/data/6721/kdst_6721.hdf5
+dir_out = /Users/neus/DEMO++/work-2020/ana-results
+file_map = /Users/neus/DEMO++/work-2019/data/6721/maps/kr_map_20bins_6721.h5
+file_e_vs_z_r = energy_vs_z_r.pdf
+file_fits     = energy_fit_regions.pdf
+run     = 6721
