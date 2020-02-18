@@ -10,7 +10,7 @@ from plotting_functions import plot_residuals_E_reso_gaussC
 from control_plots import labels, hist
 from plotting_functions import gaussC
 
-def select_dst_r_z(dst, bins_r, bins_z, index_r, index_z):
+def select_dst_ring_r_z(dst, bins_r, bins_z, index_r, index_z):
     #print(bins_r[index_r], bins_z[index_z])
 
     print(f'Cut in R range    = {bins_r[index_r]}, {bins_r[index_r+1]} \
@@ -20,6 +20,17 @@ def select_dst_r_z(dst, bins_r, bins_z, index_r, index_z):
     sel_z = in_range(dst.Z, bins_z[index_z], bins_z[index_z+1])
     sel   = sel_r & sel_z
     #print(sel)
+    return dst[sel]
+
+def select_dst_disk_r_z(dst, bins_r, bins_z, index_r, index_z):
+    #print(bins_r[index_r], bins_z[index_z])
+
+    print(f'Cut in R range    = {bins_r[0]}, {bins_r[index_r+1]} \
+          and Cut in Z range = {bins_z[0]}, {bins_z[index_z+1]}')
+
+    sel_r = in_range(dst.R, bins_r[0], bins_r[index_r+1] )
+    sel_z = in_range(dst.Z, bins_z[0], bins_z[index_z+1])
+    sel   = sel_r & sel_z
     return dst[sel]
 
 
@@ -105,7 +116,7 @@ def plot_e_resolution_vs_z_r(reso_list, file_plot):
 
     print(f'-----> Plot of energy resolution vs z and r saved in {file_plot}\n')
 
-def energy_reso_vs_z_r(dst, corr, file_fits, file_plot):
+def energy_reso_vs_z_r(dst, corr, file_fits, file_plot, ring = 'yes'):
     """
 
     """
@@ -128,7 +139,10 @@ def energy_reso_vs_z_r(dst, corr, file_fits, file_plot):
 
     for i in range(len(bins_r)-1):
         for j in range(len(bins_z)-1):
-            dst_inrange = select_dst_r_z(dst, bins_r, bins_z, i, j)
+            if ring == 'yes':
+                dst_inrange = select_dst_ring_r_z(dst, bins_r, bins_z, i, j)
+            elif ring == 'no':
+                dst_inrange = select_dst_disk_r_z(dst, bins_r, bins_z, i, j)
             print(f'Region id = {num}, i index = {i}, j index = {j}')
             dst_list.append(dst_inrange)
             chi2 = BinnedChi2(gaussC, dst_inrange.S2e*corr, bins = 50 , bound = fit_erange)
@@ -140,4 +154,5 @@ def energy_reso_vs_z_r(dst, corr, file_fits, file_plot):
             num+=1
     print(f'-----> Fits saved in {file_fits}---->\n')
     pp.close()
+
     plot_e_resolution_vs_z_r(reso_list, file_plot)
