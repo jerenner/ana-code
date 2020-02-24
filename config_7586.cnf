@@ -3,7 +3,7 @@ dir_in  = /Users/neus/DEMO++/work-2020/data/
 dir_out = /Users/neus/DEMO++/work-2020/ana-results
 file_in = /Users/neus/DEMO++/work-2020/ana-results/7125/kdst-reduced/reduced_7125_kdst.h5
 file_plots = s1s2_plots.pdf
-run     = 7577
+run     = 7586
 rfid    = 40
 
 dt_min = 0
@@ -25,7 +25,7 @@ s1h_bin = 100
 
 ## s2
 s2e_min = 500
-s2e_max = 10000
+s2e_max = 20000
 s2e_bin = 50
 
 s2w_min = 0

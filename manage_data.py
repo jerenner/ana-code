@@ -88,12 +88,14 @@ def s1s2_selection(dst, fout, dst_out_dir, run, save=False):
     s1_ev   = dst_s1.event.nunique()
     s1s2_ev = dst_s2.event.nunique()
 
-    eff_s1 = s1_ev   / s1s2_ev
-    eff_s2 = s1s2_ev / s1_ev
+    eff_s1   = s1_ev   / tot_ev
+    eff_s2   = s1s2_ev / tot_ev
+    eff_s1s2 = s1s2_ev / s1_ev
 
     fout.write(f'Abs. Eff 1s1:          {np.round(eff_s1*100,2)}%   ({s1_ev}   / {tot_ev})\n')
-    fout.write(f'Rel. eff 1s2 from 1s1: {np.round(eff_s2*100,2)}%   ({s1s2_ev} / {s1_ev})\n')
     fout.write(f'Abs. Eff 1 s1&s2:      {np.round(eff_s2*100,2)}%   ({s1s2_ev} / {tot_ev})\n')
+    fout.write(f'Rel. eff 1s2 from 1s1: {np.round(eff_s1s2*100,2)}%   ({s1s2_ev} / {s1_ev})\n')
+
 
     if save:
         dir_file_name = f'{dst_out_dir}/reduced_{run}_kdst.h5'
