@@ -11,6 +11,7 @@ def save_dst_to_file(dst, dir_file):
     Input path and file name to write a dst
     Output dst written to disk
     """
+    dst = dst.sort_values('event')
     store = pd.HDFStore(dir_file, "w", complib=str("zlib"), complevel=4)
     store.put('dataframe', dst, format='table', data_columns=True)
     store.close()
@@ -131,8 +132,8 @@ def energy_selection(dst, opt_dict, fout, dst_out_dir, run, save=False):
     Return dst with energy range requirement applied
     """
 
-    emin   = float(opt_dict["s2e_min"])
-    emax   = float(opt_dict["s2e_max"])
+    emin   = float(opt_dict["s2e_sig_min"])
+    emax   = float(opt_dict["s2e_sig_max"])
     dst_e = dst[in_range(dst.S2e,emin,emax)]
 
     tot_ev     = dst.event.nunique()

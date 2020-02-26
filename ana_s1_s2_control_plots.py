@@ -1,8 +1,12 @@
 
-from control_plots    import s1_1d_control_plots, s2_1d_control_plots
-from control_plots_2d import s1_2d_control_plots, s2_2d_control_plots
 from matplotlib.backends.backend_pdf import PdfPages
 
+from control_plots    import s1_1d_control_plots, s2_1d_control_plots
+from control_plots    import plot_energy_region_selected
+from control_plots_2d import s1_2d_control_plots, s2_2d_control_plots
+from manage_data      import energy_selection
+from detector_time_evolution import fit_time_evolution, fit_time_evolution
+from detector_time_evolution import plot_e0_lf_chi2
 
 def ana_s1_s2_control_plots(dst, plots_dir, opt_dict, label):
     """
@@ -31,3 +35,31 @@ def ana_s1_s2_control_plots(dst, plots_dir, opt_dict, label):
     pp.close()
     print(f'Plots saved in:\n')
     print(f'{plots_dir + str(label) + file_plots}')
+
+
+
+def ana_time_evolution_plots(dst, plots_dir, opt_dict, label):
+    """
+    """
+
+    run      = int(opt_dict['run'])
+
+
+    fout_name = plots_dir+'Energy_Cut.txt'
+    fout = open(fout_name,'w')
+    fout.write(f"----------  Energy cut run {run}  ----------\n")
+    dst_out_dir = plots_dir
+
+    dst_e     = energy_selection(dst, opt_dict, fout, dst_out_dir, run, save=False)
+    fit_times = fit_time_evolution(dst_e, opt_dict)
+
+    pp = PdfPages(plots_dir + str(label)+'.pdf')
+
+    fig = plot_energy_region_selected(dst_e, opt_dict)
+    pp.savefig(fig)
+    fig2 = plot_e0_lf_chi2(fit_times)
+    pp.savefig(fig2)
+
+    pp.close()
+    print(f'Plots saved in:\n')
+    print(f'{plots_dir}{str(label)}.pdf')

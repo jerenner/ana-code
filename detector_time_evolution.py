@@ -1,8 +1,90 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.colors as colors
+import seaborn as sns
+
+from control_plots import labels
+
 from krcal.core.fitmap_functions    import time_fcs_df
 from krcal.NB_utils.plt_functions   import plot_time_fcs
 from krcal.core.selection_functions import get_time_series_df
-
+from krcal.core.kr_types            import FitType
 from krcal.core.map_functions   import amap_average
+
+
+
+
+def plot_e0_lf_chi2(fit_times):
+    """
+    """
+
+    e_mean = np.array(fit_times.e0[0:8]).mean()
+    up   = (0.005 * e_mean) + e_mean
+    down = e_mean - (0.005 * e_mean)
+    e_mean_lim_max = up * 1.01
+    e_mean_lim_min = down -  (e_mean_lim_max - up)
+
+    lt_mean = np.array(fit_times.lt[0:8]).mean()
+
+    up_lt   = (0.1 * lt_mean) + lt_mean
+    down_lt = lt_mean - (0.1 * lt_mean)
+    lt_mean_lim_max = up_lt * 1.3
+    lt_mean_lim_min = down_lt -  (lt_mean_lim_max - up_lt)
+
+    fig  = plt.figure(figsize=(14, 12))
+    plt.subplot(221)
+    plt.errorbar(fit_times.ts, fit_times.e0, fit_times.e0u, 0, "p", c="k", capsize=2);
+    plt.axhline(y = e_mean, color='grey', alpha=0.4, linestyle = 'dotted');
+    plt.axhline(y = up, color='red', alpha=0.4, linestyle = 'dotted', label='0.5 % rel. uncert.');
+    plt.axhline(y = down, color='red', alpha=0.4, linestyle = 'dotted');
+    plt.ylim(e_mean_lim_min , e_mean_lim_max)
+    labels('S2 energy (pes)','Entries','')
+    plt.legend()
+
+    plt.subplot(222)
+    plt.errorbar(fit_times.ts, fit_times.lt, fit_times.ltu, 0, "p", c="k", capsize=2);
+    plt.axhline(y = lt_mean, color='grey', alpha=0.4, linestyle = 'dotted');
+    plt.axhline(y = up_lt, color='red', alpha=0.4, linestyle = 'dotted',  label='10 % rel. uncert.');
+    plt.axhline(y = down_lt, color='red', alpha=0.4, linestyle = 'dotted');
+    plt.ylim(lt_mean_lim_min , lt_mean_lim_max)
+    labels('Lifetime ($\mu$s)','Entries','')
+    plt.legend()
+
+
+    plt.subplot(223)
+    plt.errorbar(fit_times.ts, fit_times.c2, np.sqrt(fit_times.c2), 0, "p", c="k", capsize=2);
+    labels('Chi2','Entries','')
+
+    return fig
+
+
+def fit_time_evolution(dst, opt_dict):
+    """
+    XY integrated
+    get_time_series_df  --> returns time series and masks to divide file/run in branches
+    time_fcs_df   --> fits lifetime for a time series
+    plot_time_fcs
+    """
+    time_bin = int(opt_dict['time_bin'])
+    z_bin = int(opt_dict['z_bin'])
+    e_bin = int(opt_dict['e_bin'])
+    dt_min   = float(opt_dict["dt_min"])
+    dt_max   = float(opt_dict["dt_max"])
+    s2e_sig_min   = float(opt_dict["s2e_sig_min"])
+    s2e_sig_max   = float(opt_dict["s2e_sig_max"])
+
+    ts, masks = get_time_series_df(time_bin, (dst.time.values[0], dst.time.values[-1]), dst)
+    fit_times = time_fcs_df(ts, masks, dst,
+                  nbins_z = z_bin,
+                  nbins_e = e_bin,
+                  range_z = (dt_min, dt_max),
+                  range_e = (s2e_sig_min, s2e_sig_max),
+                  energy  = 'S2e',
+                  fit     = FitType.profile)
+
+
+    return fit_times
+
 
 def plot_xy_map_first_last_time():
     """
@@ -23,12 +105,6 @@ def plot_xy_map_first_last_time():
 """
 
 
-def plot_e0_lf_chi2(fitted_map_time,range_chi2,range_e0,range_lt)):
-    """
-    """
-
-    pass
-
 def plot_num_ev_xy(nXY):
     """
     """
@@ -42,31 +118,8 @@ def plot_num_ev_xy(nXY):
     """
     pass
 
-def time_evolution_plots():
-    """
-    XY integrated
-    get_time_series_df  --> returns time series and masks to divide file/run in branches
-    time_fcs_df   --> fits lifetime for a time series
-    plot_time_fcs
-    """
-    """
-    ts2, masks2 = get_time_series_df(20, (sel_dst.time.values[0],sel_dst.time.values[-1]), sel_dst)
-    fitted_map_time = time_fcs_df(ts2, masks2, sel_dst,
-                  nbins_z = 15,
-                  nbins_e = 25,
-                  range_z = (10, 320),
-                  range_e = (3500, 6000),
-                  energy  = 'S2e',
-                  fit     = FitType.profile)
 
-
-    plot_e0_lf_chi2(fitted_map_time,range_chi2,range_e0,range_lt)
-    para el plot: fps2.ts
-    fps2.e0u ----> preparar en el notebook
-    """
-    pass
-
-    def xy_time_evolution_plots():
+def xy_time_evolution_plots():
         """
         Obtain a time-series of maps (tsm) from a fit-map (fmap).
         """
@@ -110,5 +163,5 @@ def time_evolution_plots():
         plot_xy_all_time_movie()
         plot_xy_average_time()
 
-        """
+    """
         pass

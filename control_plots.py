@@ -47,6 +47,42 @@ def plot_stat(x, y):
 
     plt.legend([stat], loc='upper right')
 
+
+def plot_energy_region_selected(dst, opt_dict):
+    """
+    """
+
+    s2e_sig_min   = float(opt_dict["s2e_sig_min"])
+    s2e_sig_max   = float(opt_dict["s2e_sig_max"])
+    s2e_sig_bin   = int(opt_dict["s2e_sig_bin"])
+
+    s2e_min   = float(opt_dict["s2e_min"])
+    s2e_max   = float(opt_dict["s2e_max"])
+    s2e_bin   = int(opt_dict["s2e_bin"])
+
+    dt_min   = float(opt_dict["dt_min"])
+    dt_max   = float(opt_dict["dt_max"])
+    dt_bin   = float(opt_dict["dt_bin"])
+
+
+    fig = plt.figure(figsize=(13,20))
+
+    ax      = fig.add_subplot(4, 2, 1)
+    y,x,p = hist(dst.S2e, bins = s2e_sig_bin, range = [s2e_sig_min, s2e_sig_max], histtype='stepfilled', color='crimson')
+    plot_stat(x,y)
+    labels('S2 Charge (pes)','Entries','')
+
+    ax = fig.add_subplot(4, 2, 2)
+    plt.hist2d(dst.Z, dst.S2e, 100, [[dt_min, dt_max],[s2e_min, s2e_max]], cmap='coolwarm');
+    plt.axhline(y = s2e_sig_min, color='red', alpha=0.7);
+    plt.axhline(y = s2e_sig_max, color='red', alpha=0.7);
+    plt.xlabel('Drift time ($\mu$s)')
+    plt.ylabel('S2e ($\mu$s)')
+    plt.title(None)
+    plt.colorbar().set_label("Number of events")
+
+    return fig
+
 def s1_1d_control_plots(dst, plots_dir, opt_dict, selection_label):
     """
     Input config file dictionary
