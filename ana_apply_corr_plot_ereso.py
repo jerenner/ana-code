@@ -2,7 +2,7 @@ from detector_corrections      import apply_corrections
 from energy_resolution_vs_z_r  import energy_reso_vs_z_r
 
 
-def ana_apply_corr_plot_ereso():
+def ana_apply_corr_plot_ereso(dst, opt_dict, plots_dir):
     """
     """
 
