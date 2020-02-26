@@ -10,6 +10,9 @@ from krcal.core.io_functions         import write_complete_maps
 from krcal.map_builder.map_builder_functions  import e0_xy_correction
 from invisible_cities.reco.corrections_new    import apply_all_correction
 from invisible_cities.reco.corrections_new    import read_maps   #  ---> check file to see NEW dependencies
+from krcal.core.io_functions                  import write_complete_maps
+
+
 
 def create_corrections_map():
     """
@@ -87,6 +90,20 @@ def create_corrections_map():
     """
     pass
 
+def write_map_to_file(map, opt_dict, file):
+
+    run = int(opt_dict["run"])
+    #run = opt_dict["run"]
+    map = add_mapinfo(asm        = map,
+                   xr         = (-70, 70),
+                   yr         = (-70, 70),
+                   nx         = 40       ,
+                   ny         = 40       ,
+                   run_number = run)
+
+    print(map.mapinfo)
+    write_complete_maps(asm = map, filename = file)
+    print(f'Correction Map saved in {file}')
 
 def apply_corrections(dst, map_file):
         """

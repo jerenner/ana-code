@@ -1,14 +1,23 @@
 [Defaults]
 dir_in  = /Users/neus/DEMO++/work-2020/data/
 dir_out = /Users/neus/DEMO++/work-2020/ana-results
-file_in = kdst_40.h5
+file_in = kdst.h5
 label_file_plots = test
+
+fit_type = FitType.unbined
+
 run     = 7125
 rfid    = 40
+
+r_max   = 70
+xy_num_bins = 20
 
 time_bin = 20
 z_bin    = 15
 e_bin    = 25
+
+dt_sig_min = 10
+dt_sig_max = 350
 
 dt_min = 0
 dt_max = 350
@@ -55,5 +64,3 @@ nsipm_all_bin = 257
 nsipm_min = 0
 nsipm_max = 40
 nsipm_bin = 41
-
-r_max = 80

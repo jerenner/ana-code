@@ -12,7 +12,7 @@ def ana_create_reduced_and_efi(dst_out_dir, plots_dir, dir_input, run, opt_dict)
 
     dst_full = load_data(fout, dir_input, run)
     dst_s1s2 = s1s2_selection(dst_full, fout, dst_out_dir, run, save=True)
-    dst_r    = radial_selection(dst_s1s2, rfid,  fout, dst_out_dir, run, save=True)
+    dst_r    = radial_selection(dst_s1s2, fout, dst_out_dir, run, rfid = rfid, save=True)
     dst_e    = energy_selection(dst_r, opt_dict, fout, dst_out_dir, run, save=True)
 
     print(f'-----> Closing output summary file in: {fout_name}\n')

@@ -65,14 +65,14 @@ def plot_energy_region_selected(dst, opt_dict):
     dt_bin   = float(opt_dict["dt_bin"])
 
 
-    fig = plt.figure(figsize=(13,20))
+    fig  = plt.figure(figsize=(14, 12))
 
-    ax      = fig.add_subplot(4, 2, 1)
+    ax      = fig.add_subplot(2, 2, 1)
     y,x,p = hist(dst.S2e, bins = s2e_sig_bin, range = [s2e_sig_min, s2e_sig_max], histtype='stepfilled', color='crimson')
     plot_stat(x,y)
     labels('S2 Charge (pes)','Entries','')
 
-    ax = fig.add_subplot(4, 2, 2)
+    ax = fig.add_subplot(2, 2, 2)
     plt.hist2d(dst.Z, dst.S2e, 100, [[dt_min, dt_max],[s2e_min, s2e_max]], cmap='coolwarm');
     plt.axhline(y = s2e_sig_min, color='red', alpha=0.7);
     plt.axhline(y = s2e_sig_max, color='red', alpha=0.7);

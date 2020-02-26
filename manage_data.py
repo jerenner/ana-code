@@ -105,18 +105,19 @@ def s1s2_selection(dst, fout, dst_out_dir, run, save=False):
 
     return dst_s2
 
-def radial_selection(dst,rfid, fout, dst_out_dir, run, save=False):
+def radial_selection(dst, fout, dst_out_dir, run, rfid , save=False):
     """
     Input a dst
     Return dst with radial requirement applied
     """
 
-    rfid     = int(rfid)
+    #rfid     = int(rfid)
     dst_rfid = dst[in_range(dst.R,0,rfid)]
     tot_ev   = dst.event.nunique()
     rfid_ev  = dst_rfid.event.nunique()
     eff      = rfid_ev/tot_ev
 
+    print(f'Rel. Eff R < {rfid}: {np.round(eff*100,2)}%  ({rfid_ev} / {tot_ev})\n')
     fout.write(f'Rel. Eff R < {rfid}: {np.round(eff*100,2)}%  ({rfid_ev} / {tot_ev})\n')
 
     if save:
@@ -134,13 +135,15 @@ def energy_selection(dst, opt_dict, fout, dst_out_dir, run, save=False):
 
     emin   = float(opt_dict["s2e_sig_min"])
     emax   = float(opt_dict["s2e_sig_max"])
-    dst_e = dst[in_range(dst.S2e,emin,emax)]
+    dst_e = dst[in_range(dst.S2e, emin, emax)]
 
     tot_ev     = dst.event.nunique()
     energy_ev  = dst_e.event.nunique()
     eff        = energy_ev/tot_ev
 
-    fout.write(f'Rel. Eff e = [{emin, emax}]: {np.round(eff*100,2)}%    ({energy_ev} / {tot_ev}\n)')
+    print(f'Rel. Eff e = [{emin, emax}]: {np.round(eff*100,2)}%    ({energy_ev} / {tot_ev})\n')
+
+    fout.write(f'Rel. Eff e = [{emin, emax}]: {np.round(eff*100,2)}%    ({energy_ev} / {tot_ev})\n')
 
     if save:
         dir_file_name = f'{dst_out_dir}/reduced_{run}_kdst_emin{emin}_emax{emax}.h5'
