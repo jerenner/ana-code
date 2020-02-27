@@ -5,9 +5,9 @@ from matplotlib.backends.backend_pdf import PdfPages
 from iminuit     import Minuit, describe
 from probfit     import BinnedChi2, Extended
 
-from invisible_cities.core .core_functions import in_range
+from invisible_cities.core.core_functions import in_range
 from plotting_functions import plot_residuals_E_reso_gaussC
-from control_plots import labels, hist
+from control_plots      import labels, hist
 from plotting_functions import gaussC
 
 def select_dst_ring_r_z(dst, bins_r, bins_z, index_r, index_z):

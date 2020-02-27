@@ -58,8 +58,8 @@ def plot_residuals_E_reso_gaussC(plots_dir, label, energy, e_nbins, e_range, mu,
     plt.plot        (e, y_from_fit, lw=global_linewidth, color=global_linecolor   )
     plt.fill_between(e, y_from_fit_1,    0,     alpha=0.3, color='')
     plt.fill_between(e, y_from_fit_2,    0,     alpha=0.5, color='pink')
+    plt.legend( loc='upper right', numpoints = 1 )
 
-    leg1 = plt.gca().legend(('fit', 'data'), loc='upper right')
     textstr = '\n'.join((
         '$\mu={:.2f}      \pm {:.2f} $'     .format(mu,mu_u),
         '$\sigma 1={:.2f} \pm {:.2f}$'      .format(sigma, sigma_u),
