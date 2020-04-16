@@ -1,10 +1,30 @@
 [Defaults]
 dir_in  = /Users/neus/DEMO++/work-2020/data/
 dir_out = /Users/neus/DEMO++/work-2020/ana-results
-file_in = /Users/neus/DEMO++/work-2020/ana-results/7125/kdst-reduced/reduced_7125_kdst.h5
-file_plots = s1s2_plots.pdf
-run     = 7586
+file_in = kdst_40.h5
+label_file_plots = s1s2_plots.pdf
+
+fit_type = FitType.unbined
+
+run     = 7893
+rmax   = 70
 rfid    = 40
+
+fit_e_min = 9300
+fit_e_max = 10800
+fit_seed  = 10000
+
+fit_z_min  = 325
+fit_z_max  = 348
+
+xy_num_bins = 20
+
+time_bin = 20
+z_bin    = 15
+e_bin    = 25
+
+dt_sig_min = 10
+dt_sig_max = 350
 
 dt_min = 0
 dt_max = 350
@@ -23,9 +43,13 @@ s1h_min = 0
 s1h_max = 10
 s1h_bin = 100
 
-## s2
+## s2 sig region
+s2e_sig_min = 9000
+s2e_sig_max = 11000
+s2e_sig_bin = 50
+
 s2e_min = 500
-s2e_max = 20000
+s2e_max = 15000
 s2e_bin = 50
 
 s2w_min = 0
@@ -47,5 +71,3 @@ nsipm_all_bin = 257
 nsipm_min = 0
 nsipm_max = 40
 nsipm_bin = 41
-
-r_max = 80

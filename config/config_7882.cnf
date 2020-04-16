@@ -1,0 +1,66 @@
+[Defaults]
+dir_in  = /Users/neus/DEMO++/work-2020/data/
+dir_out = /Users/neus/DEMO++/work-2020/ana-results
+file_in = dummy.h5
+label_file_plots = s1s2_plots.pdf
+
+fit_type = FitType.unbined
+
+run     = 7882
+rfid    = 40
+
+r_max   = 70
+xy_num_bins = 20
+
+time_bin = 20
+z_bin    = 15
+e_bin    = 25
+
+dt_sig_min = 10
+dt_sig_max = 350
+
+dt_min = 0
+dt_max = 350
+dt_bin = 50
+
+## s1
+s1e_min = 0
+s1e_max = 100
+s1e_bin = 50
+
+s1w_min = 0
+s1w_max = 0.8
+s1w_bin = 33
+
+s1h_min = 0
+s1h_max = 10
+s1h_bin = 100
+
+## s2
+s2e_sig_min = 9000
+s2e_sig_max = 11000
+s2e_sig_bin = 50
+
+s2e_min = 500
+s2e_max = 15000
+s2e_bin = 50
+
+s2w_min = 0
+s2w_max = 20
+s2w_bin = 41
+
+s2h_min = 0
+s2h_max = 3000
+s2h_bin = 50
+
+s2q_min = 0
+s2q_max = 1000
+s2q_bin = 100
+
+nsipm_all_min = 0
+nsipm_all_max = 256
+nsipm_all_bin = 257
+
+nsipm_min = 0
+nsipm_max = 40
+nsipm_bin = 41

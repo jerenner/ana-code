@@ -54,11 +54,12 @@ def plot_residuals_E_reso_gaussC(plots_dir, label, energy, e_nbins, e_range, mu,
     # Plot
     frame_data = plt.gcf().add_axes((.1, .3,.8, .6))
 
-    plt.errorbar    (e, entries, entries_u, 0, "p", c="k")
-    plt.plot        (e, y_from_fit, lw=global_linewidth, color=global_linecolor   )
+    plt.errorbar    (e, entries, entries_u, 0, "p", c="k", label = 'data')
+    plt.plot        (e, y_from_fit, lw=global_linewidth, color=global_linecolor, label = 'fit'  )
     plt.fill_between(e, y_from_fit_1,    0,     alpha=0.3, color='')
     plt.fill_between(e, y_from_fit_2,    0,     alpha=0.5, color='pink')
     plt.legend( loc='upper right', numpoints = 1 )
+
 
     textstr = '\n'.join((
         '$\mu={:.2f}      \pm {:.2f} $'     .format(mu,mu_u),
@@ -72,6 +73,7 @@ def plot_residuals_E_reso_gaussC(plots_dir, label, energy, e_nbins, e_range, mu,
     plt.gca().text(0.05, 0.95, textstr, transform=plt.gca().transAxes, fontsize=14,
                    verticalalignment='top', bbox=props)
     frame_data.set_xticklabels([])
+
     plt.ylabel("Entries")
     plt.ylim(-10)
 

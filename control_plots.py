@@ -40,7 +40,7 @@ def plot_stat(x, y):
     mean, std = weighted_mean_and_std(x, y, \
     frequentist = True, unbiased = True)
 
-    entries  =  f'Entries = {len(x)}'
+    entries  =  f'Entries = {sum(x)}'
     mean     =  r'$\mu$ = {:7.2f}'.format(mean)
     sigma    =  r'$\sigma$ = {:7.2f}'.format(std)
     stat     =  f'{entries}\n{mean}\n{sigma}'
@@ -218,6 +218,7 @@ def s2_1d_control_plots(dst, plots_dir, opt_dict, selection_label):
     col2      = 'lightcoral'
 
     fig = plt.figure(figsize=(15,25))
+
     ax      = fig.add_subplot(5, 2, 1)
     y,x,p = hist(dst.S2e, bins = s2e_bin, range = s2e_range, histtype=hist_type, color=col)
     plot_stat(x,y)

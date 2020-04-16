@@ -13,7 +13,7 @@ def ana_s1_s2_control_plots(dst, plots_dir, opt_dict, label):
     """
     """
 
-    file_plots = opt_dict["file_plots"]
+    file_plots = opt_dict["label_file_plots"]
     #s1_1D_control_plots(plots_dir, dst_full, opt_dict, 'all')
     #s2_1D_control_plots(plots_dir, dst_full, opt_dict, 'all')
     pp = PdfPages(plots_dir + str(label)+ file_plots)

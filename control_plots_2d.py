@@ -11,7 +11,7 @@ def s1_2d_control_plots(dst, plots_dir, opt_dict, label):
     """
     """
 
-    r_max = int(opt_dict['r_max'])
+    rmax = int(opt_dict['rmax'])
 
     dt_max = int(opt_dict['dt_max'])
     dt_min = int(opt_dict['dt_min'])
@@ -33,9 +33,9 @@ def s1_2d_control_plots(dst, plots_dir, opt_dict, label):
     s1h_range = (s1h_min, s1h_max)
     s1w_range = (s1w_min, s1w_max)
 
-    r_range   = (0,r_max)
+    r_range   = (0,rmax)
     dt_range = (dt_min, dt_max)
-    xy_range  = (-r_max,  r_max)
+    xy_range  = (-rmax,  rmax)
 
 
     fig = plt.figure(figsize=(15,25))
@@ -140,8 +140,21 @@ def s1_2d_control_plots(dst, plots_dir, opt_dict, label):
     plt.ylabel('Y (mm)')
     plt.title(None)
     plt.colorbar().set_label("S1e (pes)")
-
     colors.LogNorm()
+
+    ax      = fig_2.add_subplot(5, 2, 5)
+    nevt, *_  = plt.hist2d(dst.S1e, dst.X,(50, 50), [s1e_range, xy_range], cmap='coolwarm', norm=colors.LogNorm())
+    plt.xlabel('S1e (mm)')
+    plt.ylabel('X (mm)')
+    plt.title(None)
+    plt.colorbar().set_label("Number of events")
+
+    ax      = fig_2.add_subplot(5, 2, 6)
+    nevt, *_  = plt.hist2d(dst.S1e, dst.Y,(50, 50), [s1e_range, xy_range], cmap='coolwarm', norm=colors.LogNorm())
+    plt.xlabel('S1e (mm)')
+    plt.ylabel('Y (mm)')
+    plt.title(None)
+    plt.colorbar().set_label("Number of events")
 
     print('s1 2d plots saved in '+ plots_dir)
     return fig, fig_2
@@ -151,7 +164,7 @@ def s2_2d_control_plots(dst, plots_dir, opt_dict, label):
     """
     """
 
-    r_max = int(opt_dict['r_max'])
+    rmax = int(opt_dict['rmax'])
 
     dt_max = int(opt_dict['dt_max'])
     dt_min = int(opt_dict['dt_min'])
@@ -185,9 +198,9 @@ def s2_2d_control_plots(dst, plots_dir, opt_dict, label):
     nsipm_max  = int(opt_dict["nsipm_max"])
     nsipm_bin  = int(opt_dict["nsipm_bin"])
 
-    r_range   = (0,r_max)
+    r_range   = (0,rmax)
     dt_range = (dt_min, dt_max)
-    xy_range  = (-r_max,  r_max)
+    xy_range  = (-rmax,  rmax)
 
     s1e_range = (s1e_min, s1e_max)
     s2e_range = (s2e_min, s2e_max)
@@ -196,6 +209,12 @@ def s2_2d_control_plots(dst, plots_dir, opt_dict, label):
     s2q_range       = (s2q_min,   s2q_max)
     nsipm_range     = (nsipm_min, nsipm_max)
     nsipm_all_range = (nsipm_all_min, nsipm_all_max)
+
+    s1w_min   = float(opt_dict["s1w_min"])
+    s1w_max   = float(opt_dict["s1w_max"])
+    s1w_bin   = int(opt_dict["s1w_bin"])
+
+    s1w_range = (s1w_min, s1w_max)
 
     fig = plt.figure(figsize=(15,25))
     ax      = fig.add_subplot(5, 2, 1)
@@ -270,56 +289,71 @@ def s2_2d_control_plots(dst, plots_dir, opt_dict, label):
 
 ### ------- New figure
     fig_2 = plt.figure(figsize=(15,25))
+
     ax      = fig_2.add_subplot(5, 2, 1)
+    nevt, *_  = plt.hist2d(dst.S2e, dst.S2w,(50, 50), [s2e_range, s2w_range], cmap='coolwarm')
+    plt.xlabel('S2e (pes)')
+    plt.ylabel('S2w ($\mu$s)')
+    plt.title(None)
+    plt.colorbar().set_label("Number of events")
+
+    ax      = fig_2.add_subplot(5, 2, 2)
+    nevt, *_  = plt.hist2d(dst.S2e, dst.S2w,(50, 50), [s2e_range, s2w_range], cmap='coolwarm', norm=colors.LogNorm())
+    plt.xlabel('S2e (pes)')
+    plt.ylabel('S2w ($\mu$s)')
+    plt.title(None)
+    plt.colorbar().set_label("Number of events")
+
+    ax      = fig_2.add_subplot(5, 2, 3)
+    nevt, *_  = plt.hist2d(dst.S2e, dst.S1w/units.mus,(50, s1w_bin), [s2e_range, s1w_range], cmap='coolwarm')
+    plt.xlabel('S2e (pes)')
+    plt.ylabel('S1w ($\mu$s)')
+    plt.title(None)
+    plt.colorbar().set_label("Number of events")
+
+    ax      = fig_2.add_subplot(5, 2, 4)
+    nevt, *_  = plt.hist2d(dst.S2e, dst.S1w/units.mus,(50, s1w_bin), [s2e_range, s1w_range], cmap='coolwarm', norm=colors.LogNorm())
+    plt.xlabel('S2e (pes)')
+    plt.ylabel('S1w ($\mu$s)')
+    plt.title(None)
+    plt.colorbar().set_label("Number of events")
+
+    ax      = fig_2.add_subplot(5, 2, 5)
     nevt, *_  = plt.hist2d(dst.Phi, dst.S2e,(50, 50), [(-1,1), s2e_range], cmap='coolwarm')
     plt.xlabel('Phi')
     plt.ylabel('S2e (pes)')
     plt.title(None)
     plt.colorbar().set_label("Number of events")
 
-    ax      = fig_2.add_subplot(5, 2, 2)
+    ax      = fig_2.add_subplot(5, 2, 6)
     nevt, *_  = plt.hist2d(dst.Phi, dst.S2e,(50, 50), [(-1,1), s2e_range], cmap='coolwarm', norm=colors.LogNorm())
     plt.xlabel('Phi ')
     plt.ylabel('S2e (pes)')
     plt.title(None)
     plt.colorbar().set_label("Number of events")
 
-    ax      = fig_2.add_subplot(5, 2, 3)
-    nevt, *_  = plt.hist2d(dst.X, dst.Y,(50, 50), [xy_range, xy_range], cmap='coolwarm', norm=colors.LogNorm())
+    ax      = fig_2.add_subplot(5, 2, 7)
+    nevt, *_  = plt.hist2d(dst.X, dst.Y,(50, 50), [xy_range, xy_range], normed=True, weights=dst.S2e.values, cmap='coolwarm')
     plt.xlabel('X (mm)')
     plt.ylabel('Y (mm)')
     plt.title('XY event distribution')
-    plt.colorbar().set_label("Number of events")
+    plt.colorbar().set_label("Normed True, weighted by S2e")
 
-    ax      = fig_2.add_subplot(5, 2, 4)
-    nevt, *_  = plt.hist2d(dst.S1e, dst.X,(50, 50), [s1e_range, xy_range], cmap='coolwarm', norm=colors.LogNorm())
-    plt.xlabel('S1e (mm)')
-    plt.ylabel('X (mm)')
-    plt.title(None)
-    plt.colorbar().set_label("Number of events")
-
-    ax      = fig_2.add_subplot(5, 2, 5)
-    nevt, *_  = plt.hist2d(dst.S1e, dst.Y,(50, 50), [s1e_range, xy_range], cmap='coolwarm', norm=colors.LogNorm())
-    plt.xlabel('S1e (mm)')
-    plt.ylabel('Y (mm)')
-    plt.title(None)
-    plt.colorbar().set_label("Number of events")
-
-    ax      = fig_2.add_subplot(5, 2, 6)
+    ax      = fig_2.add_subplot(5, 2, 8)
     nevt, *_  = plt.hist2d(dst.S2e, dst.X,(50, 50), [s2e_range, xy_range], cmap='coolwarm', norm=colors.LogNorm())
     plt.xlabel('S2e (mm)')
     plt.ylabel('X (mm)')
     plt.title(None)
     plt.colorbar().set_label("Number of events")
 
-    ax      = fig_2.add_subplot(5, 2, 7)
+    ax      = fig_2.add_subplot(5, 2, 9)
     nevt, *_  = plt.hist2d(dst.S2e, dst.Y,(50, 50), [s2e_range, xy_range], cmap='coolwarm', norm=colors.LogNorm())
     plt.xlabel('S2e (mm)')
     plt.ylabel('Y (mm)')
     plt.title(None)
     plt.colorbar().set_label("Number of events")
 
-    ax      = fig_2.add_subplot(5, 2, 8)
+    ax      = fig_2.add_subplot(5, 2, 10)
     nevt, *_  = plt.hist2d(dst.S2e, dst.R,(50, 50), [s2e_range, r_range], cmap='coolwarm', norm=colors.LogNorm())
     plt.xlabel('S2e (mm)')
     plt.ylabel('R (mm)')

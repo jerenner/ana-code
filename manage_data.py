@@ -63,7 +63,7 @@ def load_data(fout, dir_in, run):
     #unique_events = dst.event.nunique()
     nunique_events = dst.event.nunique()
 
-    print(nunique_events)
+    #print(nunique_events)
 
     num_of_S2s  = np.size         (unique_events)
     num_of_evts = np.count_nonzero(unique_events)
@@ -75,31 +75,33 @@ def load_data(fout, dir_in, run):
 
     return dst
 
-def s1s2_selection(dst, fout, dst_out_dir, run, save=False):
+def s1s2_selection(dst, fout, dst_out_dir, run, rmax, save=False):
     """
     Input one file with a dst dataframe and run number
     Returns dst and writes to disk a reduced dst with events that pass
     the 1s1 and 1s2 selection criteria
     """
 
-    dst_s1  = dst     [in_range(dst.nS1,    1,2)]
-    dst_s2  = dst_s1  [in_range(dst_s1.nS2, 1,2)]
+    dst_s1   = dst     [in_range(dst.nS1,    1,2)]
+    dst_s2   = dst_s1  [in_range(dst_s1.nS2, 1,2)]
+
 
     tot_ev  = dst.   event.nunique()
     s1_ev   = dst_s1.event.nunique()
     s1s2_ev = dst_s2.event.nunique()
 
-    eff_s1   = s1_ev   / tot_ev
-    eff_s2   = s1s2_ev / tot_ev
-    eff_s1s2 = s1s2_ev / s1_ev
+    eff_s1      = s1_ev   / tot_ev
+    eff_s2      = s1s2_ev / tot_ev
+    eff_s1s2    = s1s2_ev / s1_ev
 
-    fout.write(f'Abs. Eff 1s1:          {np.round(eff_s1*100,2)}%   ({s1_ev}   / {tot_ev})\n')
-    fout.write(f'Abs. Eff 1 s1&s2:      {np.round(eff_s2*100,2)}%   ({s1s2_ev} / {tot_ev})\n')
-    fout.write(f'Rel. eff 1s2 from 1s1: {np.round(eff_s1s2*100,2)}%   ({s1s2_ev} / {s1_ev})\n')
+
+    fout.write(f'Abs. Eff 1s1:                                   {np.round(eff_s1*100,2)}%   ({s1_ev}   / {tot_ev})\n')
+    fout.write(f'Abs. Eff 1 s1&s2:                               {np.round(eff_s2*100,2)}%   ({s1s2_ev} / {tot_ev})\n')
+    fout.write(f'Rel. eff 1s2 from 1s1:                          {np.round(eff_s1s2*100,2)}%   ({s1s2_ev} / {s1_ev})\n')
 
 
     if save:
-        dir_file_name = f'{dst_out_dir}/reduced_{run}_kdst.h5'
+        dir_file_name = f'{dst_out_dir}/reduced_{run}_kdst_{rmax}.h5'
         save_dst_to_file(dst_s2, dir_file_name)
         print(f'Save reduced kdst with 1s1 and 1s2 in: {dir_file_name}')
 
@@ -112,7 +114,7 @@ def radial_selection(dst, fout, dst_out_dir, run, rfid , save=False):
     """
 
     #rfid     = int(rfid)
-    dst_rfid = dst[in_range(dst.R,0,rfid)]
+    dst_rfid = dst[in_range(dst.R, 0, rfid)]
     tot_ev   = dst.event.nunique()
     rfid_ev  = dst_rfid.event.nunique()
     eff      = rfid_ev/tot_ev
