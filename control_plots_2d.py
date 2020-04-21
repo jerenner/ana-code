@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 import seaborn as sns
 
-from  invisible_cities.core.system_of_units_c import units
+import  invisible_cities.core.system_of_units as units
 
 def s1_2d_control_plots(dst, plots_dir, opt_dict, label):
     """

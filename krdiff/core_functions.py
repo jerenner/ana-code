@@ -7,7 +7,7 @@ from   pandas.core.frame import DataFrame
 from   typing      import Tuple, List, Iterable
 from . kr_types    import Number
 from   numpy      import pi
-from   invisible_cities.evm.ic_containers  import Measurement
+from   krcal.core.kr_types  import Measurement
 
 NN = np.nan
 

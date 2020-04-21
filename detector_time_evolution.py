@@ -8,7 +8,7 @@ import seaborn as sns
 from control_plots import labels
 
 from krcal.core.fitmap_functions    import time_fcs_df
-from krcal.NB_utils.plt_functions   import plot_time_fcs
+#from krcal.NB_utils.plt_functions   import plot_time_fcs
 from krcal.core.selection_functions import get_time_series_df
 from krcal.core.kr_types            import FitType
 #from krcal.core.map_functions       import amap_average

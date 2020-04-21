@@ -7,7 +7,7 @@ import seaborn as sns
 
 from invisible_cities.core.core_functions  import shift_to_bin_centers
 from invisible_cities.core .core_functions import weighted_mean_and_std
-from invisible_cities.core.system_of_units_c import units
+import invisible_cities.core.system_of_units as units
 
 
 plt.rcParams["figure.figsize"] = 10, 8

@@ -1,14 +1,22 @@
 import numpy as np
 import random
 
+from dataclasses import dataclass
+
 import matplotlib.pyplot as plt
 from . import fit_functions_ic as fitf
 
 from typing import Tuple, Optional
 
 from . stat_functions  import mean_and_std
-from . kr_types import Number, Array, Str
-from . kr_types        import PlotLabels
+from krcal.core.kr_types import Number, Array, Str
+#from . histo_functions        import PlotLabels
+
+@dataclass
+class PlotLabels:
+    x     : str
+    y     : str
+    title : str
 
 
 def labels(pl : PlotLabels):

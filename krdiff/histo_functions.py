@@ -1,6 +1,8 @@
 import numpy as np
 import random
 
+from dataclasses import dataclass
+
 import seaborn as sns
 import matplotlib.pyplot as plt
 from . import fit_functions_ic as fitf
@@ -8,12 +10,18 @@ from . import fit_functions_ic as fitf
 from typing import Tuple, Optional
 
 from . stat_functions  import mean_and_std
-from . kr_types import Number, Array, Str
-from . kr_types        import PlotLabels
+from   krcal.core.kr_types import Number, Array, Str
+#from . kr_types        import PlotLabels
 
 from . histo_functions_old_icaros     import h1, h1d, plot_histo, profile1d
 
-from invisible_cities.icaro. hst_functions import shift_to_bin_centers
+from invisible_cities.core.core_functions import shift_to_bin_centers
+
+@dataclass
+class PlotLabels:
+    x     : str
+    y     : str
+    title : str
 
 sns.set()
 

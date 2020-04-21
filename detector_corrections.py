@@ -8,8 +8,8 @@ from krcal.core.map_functions        import add_mapinfo
 from krcal.core.io_functions         import write_complete_maps
 
 from krcal.map_builder.map_builder_functions  import e0_xy_correction
-from invisible_cities.reco.corrections_new    import apply_all_correction
-from invisible_cities.reco.corrections_new    import read_maps   #  ---> check file to see NEW dependencies
+from invisible_cities.reco.corrections    import apply_all_correction
+from invisible_cities.reco.corrections    import read_maps   #  ---> check file to see NEW dependencies
 from krcal.core.io_functions                  import write_complete_maps
 
 

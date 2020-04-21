@@ -8,7 +8,7 @@ from typing import Tuple, Optional
 
 import pandas as pd
 
-from   invisible_cities.icaro.hst_functions       import hist2d_profile
+from   krdiff.old_icaros_IC       import hist2d_profile
 #from   krcal.core.histo_functions                 import h1, h1d, h2, h2d, plot_histo
 from   krdiff.histo_functions                     import plot_histo, h1, h2, h2d, plot_EQ, plot_event_energy, control_plots_XY, plot_wcharged
 

@@ -12,8 +12,9 @@ import scipy.stats
 from invisible_cities.core                   import core_functions as coref
 from invisible_cities.core.stat_functions    import poisson_sigma
 from invisible_cities.evm.ic_containers      import FitFunction
-from . core_functions                        import  NN
+#from . core_functions                        import  NN
 
+NN = np.nan
 
 def get_errors(cov):
     """
