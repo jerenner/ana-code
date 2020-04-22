@@ -31,22 +31,20 @@ def hist(*args, **kwargs):
     y, x, p = plt.hist(*args, **kwargs)
     return y, shift_to_bin_centers(x), p
 
-def plot_stat(x, y):
+def plot_stat(x, y, loc = 'upper right'):
     """
     Input x and y from a binned histogram
     Return mu and sigma statistics and add to the plot
     """
 
-    mean, std = weighted_mean_and_std(x, y, \
-    frequentist = True, unbiased = True)
+    mean, std = weighted_mean_and_std(x, y, frequentist = True, unbiased = True)
 
-    entries  =  f'Entries = {sum(x)}'
-    mean     =  r'$\mu$ = {:7.2f}'.format(mean)
-    sigma    =  r'$\sigma$ = {:7.2f}'.format(std)
+    entries  =  f'Entries = {sum(y):.0f}'
+    mean     =  f'$\mu$ = {mean:7.2f}'
+    sigma    =  f'$\sigma$ = {std:7.2f}'
     stat     =  f'{entries}\n{mean}\n{sigma}'
 
-    plt.legend([stat], loc='upper right')
-
+    plt.legend([stat], loc=loc)
 
 def plot_energy_region_selected(dst, opt_dict):
     """
