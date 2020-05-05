@@ -2,6 +2,10 @@ import numpy  as np
 import pandas as pd
 
 
+def error_eff(ntot, eff):
+    return np.sqrt(eff*(1-eff)/ntot)
+
+
 def cov(x, y, w):
 
     """

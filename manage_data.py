@@ -3,6 +3,8 @@ import shutil
 import numpy  as np
 import pandas as pd
 
+from ana_stat import error_eff
+
 from  invisible_cities.io.dst_io import load_dsts
 from  invisible_cities.core .core_functions import in_range
 
@@ -72,6 +74,38 @@ def load_data(fout, dir_in, run):
     fout.write(f"Entries in dst    = {str(len(dst))}\n")
     fout.write(f"Number of S2s     = {num_of_S2s} \n")
     fout.write(f"Number of events  = {num_of_evts}\n")
+
+    # compute number of s1 and s2
+
+    df = dst[~dst.time.duplicated()]
+    tot_ev = df.event.nunique()
+    s1_num = df.nS1.values
+    s2_num = df.nS2.values
+    fout.write(f" num of ev (check)  = {tot_ev}\n")
+
+    s1_1 = np.count_nonzero(s1_num == 1)
+    s1_2 = np.count_nonzero(s1_num == 2)
+    s1_3 = np.count_nonzero(s1_num == 3)
+    s1_4 = np.count_nonzero(s1_num == 4)
+    s1_5 = np.count_nonzero(s1_num == 5)
+    s1_6 = np.count_nonzero(s1_num == 6)
+
+    s2_1 = np.count_nonzero(s2_num == 1)
+    s2_2 = np.count_nonzero(s2_num == 2)
+    s2_3 = np.count_nonzero(s2_num == 3)
+    s2_4 = np.count_nonzero(s2_num == 4)
+    s2_5 = np.count_nonzero(s2_num == 5)
+    s2_6 = np.count_nonzero(s2_num == 6)
+    s2_7 = np.count_nonzero(s2_num == 7)
+    s2_8 = np.count_nonzero(s2_num == 8)
+
+    fout.write(f'Events with 1 s1 = {(s1_1 /tot_ev*100):.3f} % ({s1_1} /{tot_ev})\n')
+    fout.write(f'Events with 2 s1 = {(s1_2 /tot_ev*100):.3f} % ({s1_2} /{tot_ev})\n')
+    fout.write(f'Events with 3 s1 = {(s1_3 /tot_ev*100):.3f} % ({s1_3} /{tot_ev})\n')
+    fout.write(f'Events with 4 s1 = {(s1_4 /tot_ev*100):.3f} % ({s1_4} /{tot_ev})\n')
+    fout.write(f'Events with 5 s1 = {(s1_5 /tot_ev*100):.3f} % ({s1_5} /{tot_ev})\n')
+    fout.write(f'Events with 6 s1 = {(s1_6 /tot_ev*100):.3f} % ({s1_6} /{tot_ev})\n')
+
 
     return dst
 
