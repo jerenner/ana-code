@@ -57,7 +57,7 @@ def main(args = None):
     ##
     #dst = pd.read_hdf(file_in)
     #print(file_in)
-    #ana_v_ereso_lt_raw(dst_r, plots_dir, opt_dict)
+    ana_v_ereso_lt_raw(dst_r, plots_dir, opt_dict)
 
     #------ Analisis: read reduced dst and make plots -------
     #dst = pd.read_hdf(file_in)

@@ -27,7 +27,7 @@ def ana_v_ereso_lt_raw(dst, plots_dir, opt_dict):
     pp = PdfPages(plots_dir+'/fit_ereso_dv_lt_'+run+'.pdf')
     fig_e = energy_resolution(dst, plots_dir, opt_dict)
     #pp.savefig(fig_e)
-    fig_dv = drift_velocity(dst, plots_dir, opt_dict)
+    #fig_dv = drift_velocity(dst, plots_dir, opt_dict)
     #pp.savefig(fig_dv)
     #pp.close()
     #print(f'Plots saved in:\n')
