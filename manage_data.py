@@ -26,6 +26,7 @@ def create_dirs(dir):
     """
     #  to do: si escribimos ENTER que sea equivalente a NO
 
+    '''
     print('Do you want to overwrite? :' + dir)
     answer = input()
     if answer == 'y':
@@ -33,6 +34,10 @@ def create_dirs(dir):
     else:
         overwrite = False
     print(overwrite)
+    '''
+
+    # big production
+    overwrite = 'y'
 
     if os.path.exists(dir) and overwrite:
         shutil.rmtree(dir)
@@ -59,6 +64,7 @@ def load_data(fout, dir_in, run):
     files_all   = [path + f for f in os.listdir(path) \
                   if os.path.isfile( os.path.join(path, f) )]
     dst         = load_dsts(files_all, "DST", "Events")
+    time_run    = dst.time.mean()
 
     # count number of number of unique entries
     unique_events = ~dst.event.duplicated()
@@ -71,17 +77,17 @@ def load_data(fout, dir_in, run):
     num_of_evts = np.count_nonzero(unique_events)
 
     print(num_of_evts)
-    fout.write(f"Entries in dst    = {str(len(dst))}\n")
-    fout.write(f"Number of S2s     = {num_of_S2s} \n")
-    fout.write(f"Number of events  = {num_of_evts}\n")
+    fout.write(f"dst_entries {str(len(dst))}\n")
+    fout.write(f"time_run {time_run}\n")
+    fout.write(f"s2_tot {num_of_S2s} \n")
+    fout.write(f"evt_tot {num_of_evts}\n")
 
     # compute number of s1 and s2
-
     df = dst[~dst.time.duplicated()]
     tot_ev = df.event.nunique()
     s1_num = df.nS1.values
     s2_num = df.nS2.values
-    fout.write(f" num of ev (check)  = {tot_ev}\n")
+    fout.write(f"num_of_ev_check {tot_ev}\n")
 
     s1_1 = np.count_nonzero(s1_num == 1)
     s1_2 = np.count_nonzero(s1_num == 2)
@@ -99,12 +105,49 @@ def load_data(fout, dir_in, run):
     s2_7 = np.count_nonzero(s2_num == 7)
     s2_8 = np.count_nonzero(s2_num == 8)
 
-    fout.write(f'Events with 1 s1 = {(s1_1 /tot_ev*100):.3f} % ({s1_1} /{tot_ev})\n')
-    fout.write(f'Events with 2 s1 = {(s1_2 /tot_ev*100):.3f} % ({s1_2} /{tot_ev})\n')
-    fout.write(f'Events with 3 s1 = {(s1_3 /tot_ev*100):.3f} % ({s1_3} /{tot_ev})\n')
-    fout.write(f'Events with 4 s1 = {(s1_4 /tot_ev*100):.3f} % ({s1_4} /{tot_ev})\n')
-    fout.write(f'Events with 5 s1 = {(s1_5 /tot_ev*100):.3f} % ({s1_5} /{tot_ev})\n')
-    fout.write(f'Events with 6 s1 = {(s1_6 /tot_ev*100):.3f} % ({s1_6} /{tot_ev})\n')
+    fout.write(f'eff_1s1  {s1_1 /tot_ev*100:.5f} \n')
+    fout.write(f'eff_1s1_u  {error_eff(tot_ev, s1_1 /tot_ev)*100:.5f} \n')
+
+    fout.write(f'eff_2s1  {s1_2 /tot_ev*100:.5f} \n')
+    fout.write(f'eff_2s1_u  {error_eff(tot_ev, s1_2 /tot_ev)*100:.5f} \n')
+
+    fout.write(f'eff_3s1  {s1_3 /tot_ev*100:.5f} \n')
+    fout.write(f'eff_3s1_u  {error_eff(tot_ev, s1_3 /tot_ev)*100:.5f} \n')
+
+    fout.write(f'eff_4s1  {s1_4 /tot_ev*100:.5f} \n')
+    fout.write(f'eff_4s1_u  {error_eff(tot_ev, s1_4 /tot_ev)*100:.5f} \n')
+
+    fout.write(f'eff_5s1  {s1_5 /tot_ev*100:.5f} \n')
+    fout.write(f'eff_5s1_u  {error_eff(tot_ev, s1_5 /tot_ev)*100:.5f} \n')
+
+    fout.write(f'eff_6s1  {s1_6 /tot_ev*100:.5f} \n')
+    fout.write(f'eff_6s1_u  {error_eff(tot_ev, s1_6 /tot_ev)*100:.5f} \n')
+
+# s2 eff
+
+    fout.write(f'eff_1s2  {s2_1 /tot_ev*100:.5f} \n')
+    fout.write(f'eff_1s2_u  {error_eff(tot_ev, s2_1/tot_ev)*100:.5f} \n')
+
+    fout.write(f'eff_2s2  {s2_2 /tot_ev*100:.5f} \n')
+    fout.write(f'eff_2s2_u  {error_eff(tot_ev, s2_2/tot_ev)*100:.5f} \n')
+
+    fout.write(f'eff_3s2  {s2_3 /tot_ev*100:.5f} \n')
+    fout.write(f'eff_3s2_u  {error_eff(tot_ev, s2_3/tot_ev)*100:.5f} \n')
+
+    fout.write(f'eff_4s2  {s2_4 /tot_ev*100:.5f} \n')
+    fout.write(f'eff_4s2_u  {error_eff(tot_ev, s2_4/tot_ev)*100:.5f} \n')
+
+    fout.write(f'eff_5s2  {s2_5 /tot_ev*100:.5f} \n')
+    fout.write(f'eff_5s2_u  {error_eff(tot_ev, s2_5/tot_ev)*100:.5f} \n')
+
+    fout.write(f'eff_6s2  {s2_6 /tot_ev*100:.5f} \n')
+    fout.write(f'eff_6s2_u  {error_eff(tot_ev, s2_6/tot_ev)*100:.5f} \n')
+
+    fout.write(f'eff_7s2  {s2_7 /tot_ev*100:.5f} \n')
+    fout.write(f'eff_7s2_u  {error_eff(tot_ev, s2_7/tot_ev)*100:.5f} \n')
+
+    fout.write(f'eff_8s2  {s2_8 /tot_ev*100:.5f} \n')
+    fout.write(f'eff_8s2_u  {error_eff(tot_ev, s2_8/tot_ev)*100:.5f} \n')
 
 
     return dst
@@ -128,10 +171,17 @@ def s1s2_selection(dst, fout, dst_out_dir, run, rmax, save=False):
     eff_s2      = s1s2_ev / tot_ev
     eff_s1s2    = s1s2_ev / s1_ev
 
+    fout.write(f'ev_1s1 {s1_ev }\n')
+    fout.write(f'ev_1s1s2 {s1s2_ev }\n')
 
-    fout.write(f'Abs. Eff 1s1:                                   {np.round(eff_s1*100,2)}%   ({s1_ev}   / {tot_ev})\n')
-    fout.write(f'Abs. Eff 1 s1&s2:                               {np.round(eff_s2*100,2)}%   ({s1s2_ev} / {tot_ev})\n')
-    fout.write(f'Rel. eff 1s2 from 1s1:                          {np.round(eff_s1s2*100,2)}%   ({s1s2_ev} / {s1_ev})\n')
+    fout.write(f'eff_1s1 {eff_s1*100:.5f}\n')
+    fout.write(f'eff_1s1_u {error_eff(tot_ev, s1_ev/tot_ev)*100:.5f}\n')
+
+    fout.write(f'eff_1s1s2 {eff_s2*100:.5f}\n')
+    fout.write(f'eff_1s1s2_u {error_eff(tot_ev, s1s2_ev/tot_ev)*100:.5f}\n')
+
+    fout.write(f'rel_eff_1s2_from_1s1  {eff_s1s2*100:.5f}\n')
+    fout.write(f'rel_eff_1s2_from_1s1_u {error_eff(s1_ev, s1s2_ev/s1_ev)*100:.5f}\n')
 
 
     if save:
@@ -153,8 +203,16 @@ def radial_selection(dst, fout, dst_out_dir, run, rfid , save=False):
     rfid_ev  = dst_rfid.event.nunique()
     eff      = rfid_ev/tot_ev
 
-    print(f'Rel. Eff R < {rfid}: {np.round(eff*100,2)}%  ({rfid_ev} / {tot_ev})\n')
-    fout.write(f'Rel. Eff R < {rfid}: {np.round(eff*100,2)}%  ({rfid_ev} / {tot_ev})\n')
+    s1e_mean = dst_rfid.S1e.mean()
+    s1e_median = dst_rfid.S1e.median()
+
+    #print(f'Rel_eff_R_{rfid} = {np.round(eff*100,2)}%  ({rfid_ev} / {tot_ev})\n')
+    fout.write(f'ev_r_fid {rfid_ev}\n')
+    fout.write(f'rel_eff_r_{rfid} {eff*100:.5f} \n')
+    fout.write(f'rel_eff_r_{rfid}_u {error_eff(tot_ev, eff)*100:.5f}\n')
+
+    fout.write(f's1e_mean {s1e_mean:3f}\n')
+    fout.write(f's1e_median {s1e_median:3f}\n')
 
     if save:
         dir_file_name = f'{dst_out_dir}/reduced_{run}_kdst_{rfid}.h5'
@@ -177,9 +235,10 @@ def energy_selection(dst, opt_dict, fout, dst_out_dir, run, save=False):
     energy_ev  = dst_e.event.nunique()
     eff        = energy_ev/tot_ev
 
-    print(f'Rel. Eff e = [{emin, emax}]: {np.round(eff*100,2)}%    ({energy_ev} / {tot_ev})\n')
+    print(f'rel_eff_e {np.round(eff*100,2)} \n')
 
-    fout.write(f'Rel. Eff e = [{emin, emax}]: {np.round(eff*100,2)}%    ({energy_ev} / {tot_ev})\n')
+    fout.write(f'rel_eff_e {eff*100:.5f} \n')
+    fout.write(f'rel_eff_e_u {error_eff(tot_ev, eff)*100:.5f}\n')
 
     if save:
         dir_file_name = f'{dst_out_dir}/reduced_{run}_kdst_emin{emin}_emax{emax}.h5'

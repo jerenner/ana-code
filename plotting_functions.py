@@ -21,7 +21,7 @@ def poisson_sigma(x, default=3):
     u[x==0] = default
     return u
 
-def plot_residuals_E_reso_gaussC(plots_dir, label, energy, e_nbins, e_range, mu, mu_u , sigma, sigma_u, N, N_u, N2,N2_u):
+def plot_residuals_E_reso_gaussC(plots_dir, label, energy, e_nbins, e_range, mu, mu_u , sigma, sigma_u, N, N_u, N2,N2_u, chi2_val):
 
     resolution = 235*sigma/mu
 
@@ -66,7 +66,10 @@ def plot_residuals_E_reso_gaussC(plots_dir, label, energy, e_nbins, e_range, mu,
         '$\sigma 1={:.2f} \pm {:.2f}$'      .format(sigma, sigma_u),
         '$N 1={:.2f}      \pm {:.2f}$'      .format(N, N_u),
         '$N 2={:.2f}      \pm {:.2f}$'      .format(N2, N2_u),
-        '$\sigma_E/E =        {:.2f} \%  $' .format(resolution,)))
+        '$\sigma_E/E =        {:.2f} \%  $' .format(resolution,),
+        f'$\chi^2 = {chi2_val:.2f}$'
+    ))
+
 
 
     props = dict(boxstyle='square', facecolor='white', alpha=0.5)

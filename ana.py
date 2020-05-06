@@ -32,6 +32,7 @@ def main(args = None):
     dir_input        = opt_dict["dir_in"]
     run              = opt_dict["run"]
 
+    dir_out = opt_dict['dir_out'] + '/'+ opt_dict["run"]
     dst_out_dir = opt_dict['dir_out'] + '/'+ opt_dict["run"] +'/kdst-reduced/'
     plots_dir   = opt_dict['dir_out'] + '/'+ opt_dict["run"] + '/plots/'
     maps_dir    = opt_dict['dir_out'] + '/'+ opt_dict["run"] + '/maps/'
@@ -48,16 +49,21 @@ def main(args = None):
     #------ Analisis: create reduced 1s1 and 1s2 dst --------
     rmax = int(opt_dict['rmax'])
     rfid = int(opt_dict['rfid'])
-    dst_full, dst_s1s2, dst_r, dst_e = ana_create_reduced_and_efi(dst_out_dir, plots_dir, dir_input, run, opt_dict)
-    ana_s1_s2_control_plots(dst_full, plots_dir, opt_dict, 'run'+str(run)+'_full_')
-    ana_s1_s2_control_plots(dst_s1s2, plots_dir, opt_dict, 'run'+str(run)+'_s1s2_rmax'+str(rmax)+'_')
-    ana_s1_s2_control_plots(dst_r, plots_dir, opt_dict, 'run'+str(run)+'_rfid'+str(rfid)+'_')
-    ana_s1_s2_control_plots(dst_e, plots_dir, opt_dict, 'run'+str(run)+'_esig_')
+
+    fout_name = f'{dir_out}/summary_{run}.txt'
+    fout = open(fout_name,'w')
+    #fout.write(f"----------  Summary of run {run}  ----------\n")
+    fout.write(f'run {run}\n')
+    dst_full, dst_s1s2, dst_r, dst_e = ana_create_reduced_and_efi(fout, dst_out_dir, plots_dir, dir_input, run, opt_dict)
+    #ana_s1_s2_control_plots(dst_full, plots_dir, opt_dict, 'run'+str(run)+'_full_')
+    #ana_s1_s2_control_plots(dst_s1s2, plots_dir, opt_dict, 'run'+str(run)+'_s1s2_rmax'+str(rmax)+'_')
+    #ana_s1_s2_control_plots(dst_r, plots_dir, opt_dict, 'run'+str(run)+'_rfid'+str(rfid)+'_')
+    #ana_s1_s2_control_plots(dst_e, plots_dir, opt_dict, 'run'+str(run)+'_esig_')
 
     ##
     #dst = pd.read_hdf(file_in)
     #print(file_in)
-    ana_v_ereso_lt_raw(dst_r, plots_dir, opt_dict)
+    ana_v_ereso_lt_raw(dst_r, fout, plots_dir, opt_dict)
 
     #------ Analisis: read reduced dst and make plots -------
     #dst = pd.read_hdf(file_in)
@@ -84,6 +90,8 @@ def main(args = None):
 
     #------ Analisis: E reso vs R and Z ------
 
+    print(f'-----> Closing output summary file in: {fout_name}\n')
+    fout.close()
 
 if __name__ == "__main__":
         main()

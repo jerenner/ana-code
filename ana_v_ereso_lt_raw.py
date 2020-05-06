@@ -19,13 +19,13 @@ from energy_resolution_vs_z_r import plot_fits
 
 
 
-def ana_v_ereso_lt_raw(dst, plots_dir, opt_dict):
+def ana_v_ereso_lt_raw(dst, fout, plots_dir, opt_dict):
     """
     """
     run              = opt_dict["run"]
 
     pp = PdfPages(plots_dir+'/fit_ereso_dv_lt_'+run+'.pdf')
-    fig_e = energy_resolution(dst, plots_dir, opt_dict)
+    fig_e = energy_resolution(dst, fout, plots_dir, opt_dict)
     #pp.savefig(fig_e)
     #fig_dv = drift_velocity(dst, plots_dir, opt_dict)
     #pp.savefig(fig_dv)
@@ -33,7 +33,7 @@ def ana_v_ereso_lt_raw(dst, plots_dir, opt_dict):
     #print(f'Plots saved in:\n')
     #print(f'{plots_dir}/fit_ereso_dv_lt_{run}.pdf')
 
-def energy_resolution(dst, plots_dir, opt_dict):
+def energy_resolution(dst, fout, plots_dir, opt_dict):
 
     run              = opt_dict["run"]
     fit_e_min   = float(opt_dict["fit_e_min"])
@@ -41,10 +41,20 @@ def energy_resolution(dst, plots_dir, opt_dict):
     fit_seed    = float(opt_dict["fit_seed"])
     fit_erange = (fit_e_min, fit_e_max)
 
-    chi2 = BinnedChi2(gaussC, dst.S2e, bins = 50 , bound = fit_erange)
-    m = Minuit(chi2, mu = fit_seed, sigma = 90, N = 10, Ny = 0)
+    chi2_func = BinnedChi2(gaussC, dst.S2e, bins = 50 , bound = fit_erange)
+    m = Minuit(chi2_func, mu = fit_seed, sigma = 90, N = 10, Ny = 0)
     m.migrad()
-    reso, fig = plot_fits(dst, 1, fit_erange, m)
+
+    chi2_val = m.fval/chi2_func.ndof
+    mean     = m.values[0]
+    mean_u   = m.errors[0]
+
+    reso, fig = plot_fits(dst, 1, fit_erange, m, chi2_val)
+
+    fout.write(f'e_reso {reso:.3f}\n')
+    fout.write(f's2_fit {mean:.3f}\n')
+    fout.write(f's2u_fit {mean_u:.5f}\n')
+    fout.write(f'chi2_fit {chi2_val:.3f}\n')
 
     print(f'Resolution = {reso}')
     plt.savefig(f'{plots_dir}/fit_energy_reso_{run}.pdf')
@@ -52,7 +62,7 @@ def energy_resolution(dst, plots_dir, opt_dict):
     print(f'plots saved in {plots_dir}fit_energy_reso_{run}.pdf')
     print(f'plots saved in /Users/neus/current-work/ana-reso/fit_energy_reso_{run}.pdf')
 
-    return fig
+    return fig, reso, chi2_val, mean, mean_u
 
 def drift_velocity(dst, plots_dir, opt_dict):
 

@@ -34,7 +34,7 @@ def select_dst_disk_r_z(dst, bins_r, bins_z, index_r, index_z):
     return dst[sel]
 
 
-def plot_fits(dst_inrange, corr, fit_erange, m):
+def plot_fits(dst_inrange, corr, fit_erange, m, chi2_val):
 
     mean     = m.values[0]
     mean_u   = m.errors[0]
@@ -55,7 +55,7 @@ def plot_fits(dst_inrange, corr, fit_erange, m):
 
 
     plt.style.use('classic')
-    reso, fig = plot_residuals_E_reso_gaussC('', '', dst_inrange.S2e*corr, 50, fit_erange, mean, mean_u, sigma, sigma_u, N, N_u, N2, N2_u)
+    reso, fig = plot_residuals_E_reso_gaussC('', '', dst_inrange.S2e*corr, 50, fit_erange, mean, mean_u, sigma, sigma_u, N, N_u, N2, N2_u, chi2_val)
 
     return reso, fig
 

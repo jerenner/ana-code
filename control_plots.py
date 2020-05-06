@@ -5,6 +5,9 @@ import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 import seaborn as sns
 
+from matplotlib.ticker import (MultipleLocator, FormatStrFormatter,
+                               AutoMinorLocator)
+
 from invisible_cities.core.core_functions  import shift_to_bin_centers
 from invisible_cities.core .core_functions import weighted_mean_and_std
 import invisible_cities.core.system_of_units as units
@@ -29,6 +32,9 @@ def hist(*args, **kwargs):
     Return output of histogram with shift bins
     """
     y, x, p = plt.hist(*args, **kwargs)
+    #"get current axes"
+    ax = plt.gca()
+    ax.xaxis.set_minor_locator(AutoMinorLocator())
     return y, shift_to_bin_centers(x), p
 
 def plot_stat(x, y, loc = 'upper right'):
