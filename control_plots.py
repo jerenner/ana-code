@@ -87,7 +87,7 @@ def plot_energy_region_selected(dst, opt_dict):
 
     return fig
 
-def s1_1d_control_plots(dst, plots_dir, opt_dict, selection_label):
+def s1_1d_control_plots(dst, fout, plots_dir, opt_dict, selection_label, label_fout):
     """
     Input config file dictionary
     Return one pdf with X S1 related plots
@@ -117,6 +117,10 @@ def s1_1d_control_plots(dst, plots_dir, opt_dict, selection_label):
     y, x, p = hist(dst.S1e, bins = s1e_bin, range = s1e_range, histtype=hist_type, color=col)
     labels('S1e (pes)','Entries','')
     plot_stat(x,y)
+    if(label_fout == 'rfid' or label_fout == 'esig'):
+        bin_max = np.where(y == y.max())
+        ax.axvline(x[bin_max][0], color='pink')
+        fout.write(f's1e_peak_{label_fout} {x[bin_max][0]:.2f}\n')
 
     ax      = fig.add_subplot(5, 2, 2)
     y, x, p = hist(dst.S1e, bins = s1e_bin, range = s1e_range, histtype=hist_type, color=col2)
@@ -128,6 +132,10 @@ def s1_1d_control_plots(dst, plots_dir, opt_dict, selection_label):
     y, x, p = hist(dst.S1w/units.mus, bins = s1w_bin, range = s1w_range, histtype=hist_type, color=col)
     plot_stat(x,y)
     labels('Width ($\mu$s)','Entries','')
+    if(label_fout == 'rfid' or label_fout == 'esig'):
+        bin_max = np.where(y == y.max())
+        ax.axvline(x[bin_max][0], color='pink')
+        fout.write(f's1w_peak_{label_fout} {x[bin_max][0]:.2f}\n')
 
     ax      = fig.add_subplot(5, 2, 4)
     y, x, p = hist(dst.S1w/units.mus, bins = s1w_bin, range = s1w_range, histtype=hist_type, color=col2)
@@ -139,6 +147,10 @@ def s1_1d_control_plots(dst, plots_dir, opt_dict, selection_label):
     y,x,p = hist(dst.S1h, bins = s1h_bin, range = s1h_range, histtype=hist_type, color=col)
     labels('S1 height (pes)','Entries','')
     plot_stat(x,y)
+    if(label_fout == 'rfid' or label_fout == 'esig'):
+        bin_max = np.where(y == y.max())
+        ax.axvline(x[bin_max][0], color='pink')
+        fout.write(f's1h_peak_{label_fout} {x[bin_max][0]:.2f}\n')
 
     ax      = fig.add_subplot(5, 2, 6)
     y,x,p = hist(dst.S1h, bins = s1h_bin, range = s1h_range, histtype=hist_type, color=col2)
@@ -150,6 +162,10 @@ def s1_1d_control_plots(dst, plots_dir, opt_dict, selection_label):
     y,x,p  = hist(dst.S1h/dst.S1e, bins = 100, range = (0,0.6), histtype=hist_type, color=col)
     plot_stat(x,y)
     labels('S1height/s1e (pes)','Entries','')
+    if(label_fout == 'rfid' or label_fout == 'esig'):
+        bin_max = np.where(y == y.max())
+        ax.axvline(x[bin_max][0], color='pink')
+        fout.write(f's1he_peak_{label_fout} {x[bin_max][0]:.2f}\n')
 
     ax      = fig.add_subplot(5, 2, 8)
     y,x,p = hist(dst.S1h/dst.S1e, bins = 100, range = (0,0.6), histtype=hist_type, color=col2)
@@ -174,7 +190,7 @@ def s1_1d_control_plots(dst, plots_dir, opt_dict, selection_label):
     #plt.show()   --> fix size of plot when showing
 
 
-def s2_1d_control_plots(dst, plots_dir, opt_dict, selection_label):
+def s2_1d_control_plots(dst, fout, plots_dir, opt_dict, selection_label, label_fout):
     """
     Input directory of plots and config file dictionary
     Return one pdf with X S2 related plots
@@ -227,6 +243,10 @@ def s2_1d_control_plots(dst, plots_dir, opt_dict, selection_label):
     y,x,p = hist(dst.S2e, bins = s2e_bin, range = s2e_range, histtype=hist_type, color=col)
     plot_stat(x,y)
     labels('S2e (pes)','Entries','')
+    if(label_fout == 'rfid' or label_fout == 'esig'):
+        bin_max = np.where(y == y.max())
+        ax.axvline(x[bin_max][0], color='pink')
+        fout.write(f's2e_peak_{label_fout} {x[bin_max][0]:.2f}\n')
 
     ax      = fig.add_subplot(5, 2, 2)
     y,x,p = hist(dst.S2e, bins = s2e_bin, range = s2e_range, histtype=hist_type, color=col2)
@@ -238,6 +258,10 @@ def s2_1d_control_plots(dst, plots_dir, opt_dict, selection_label):
     y,x,p = hist(dst.S2h, bins =s2h_bin , range = s2h_range, histtype=hist_type, color=col)
     plot_stat(x,y)
     labels('S2h (pes)','Entries','')
+    if(label_fout == 'rfid' or label_fout == 'esig'):
+        bin_max = np.where(y == y.max())
+        ax.axvline(x[bin_max][0], color='pink')
+        fout.write(f's2h_peak_{label_fout} {x[bin_max][0]:.2f}\n')
 
     ax      = fig.add_subplot(5, 2, 4)
     y,x,p = hist(dst.S2h, bins = s2h_bin, range = s2h_range, histtype=hist_type, color=col2)
@@ -248,6 +272,10 @@ def s2_1d_control_plots(dst, plots_dir, opt_dict, selection_label):
     ax      = fig.add_subplot(5, 2, 5)
     y,x,p = hist(dst.S2w, bins =s2w_bin , range = s2w_range, histtype=hist_type, color=col)
     labels('S2w ($\mu$s)','Entries','')
+    if(label_fout == 'rfid' or label_fout == 'esig'):
+        bin_max = np.where(y == y.max())
+        ax.axvline(x[bin_max][0], color='pink')
+        fout.write(f's2w_peak_{label_fout} {x[bin_max][0]:.2f}\n')
 
     ax      = fig.add_subplot(5, 2, 6)
     y,x,p = hist(dst.S2w, bins = s2w_bin, range = s2w_range, histtype=hist_type, color=col2)
@@ -259,6 +287,10 @@ def s2_1d_control_plots(dst, plots_dir, opt_dict, selection_label):
     y,x,p = hist(dst.S2h/dst.S2e, bins = 100, range = (0,0.6), histtype=hist_type, color=col)
     plot_stat(x,y)
     labels('S2height/s2e (pes)','Entries','')
+    if(label_fout == 'rfid' or label_fout == 'esig'):
+        bin_max = np.where(y == y.max())
+        ax.axvline(x[bin_max][0], color='pink')
+        fout.write(f's2he_peak_{label_fout} {x[bin_max][0]:.2f}\n')
 
     ax      = fig.add_subplot(5, 2, 8)
     y,x,p = hist(dst.S2h/dst.S2e, bins = 100, range = (0,0.6), histtype=hist_type, color=col2)
@@ -307,6 +339,10 @@ def s2_1d_control_plots(dst, plots_dir, opt_dict, selection_label):
     y,x,p = hist(dst.S2q, bins = s2q_bin, range = s2q_range, histtype='stepfilled', color='crimson')
     plot_stat(x,y)
     labels('S2 Charge (pes)','Entries','')
+    if(label_fout == 'rfid' or label_fout == 'esig'):
+        bin_max = np.where(y == y.max())
+        ax.axvline(x[bin_max][0], color='pink')
+        fout.write(f's2q_peak_{label_fout} {x[bin_max][0]:.2f}\n')
 
     ax     = fig_2.add_subplot(5, 2, 6)
     y,x,p = hist(dst.S2q, bins = s2q_bin, range = s2q_range, histtype='stepfilled', color='lightcoral')
@@ -317,6 +353,10 @@ def s2_1d_control_plots(dst, plots_dir, opt_dict, selection_label):
     ax      = fig_2.add_subplot(5, 2, 7)
     y,x,p = hist(dst.Nsipm, bins = nsipm_bin, range = nsipm_range, histtype='stepfilled', color='crimson')
     labels('Num Sipm','Entries','')
+    if(label_fout == 'rfid' or label_fout== 'esig'):
+        bin_max = np.where(y == y.max())
+        ax.axvline(x[bin_max][0], color='pink')
+        fout.write(f'nsipm_peak_{label_fout} {x[bin_max][0]:.2f}\n')
 
 
     ax      = fig_2.add_subplot(5, 2, 8)

@@ -9,7 +9,7 @@ from manage_data      import radial_selection
 from detector_time_evolution import fit_time_evolution, fit_time_evolution
 from detector_time_evolution import plot_e0_lf_chi2, xy_time_evolution
 
-def ana_s1_s2_control_plots(dst, plots_dir, opt_dict, label):
+def ana_s1_s2_control_plots(dst, fout, plots_dir, opt_dict, label, label_fout):
     """
     """
 
@@ -18,9 +18,9 @@ def ana_s1_s2_control_plots(dst, plots_dir, opt_dict, label):
     #s2_1D_control_plots(plots_dir, dst_full, opt_dict, 'all')
     pp = PdfPages(plots_dir + str(label)+ file_plots)
 
-    fig_s1 = s1_1d_control_plots(dst, plots_dir, opt_dict, 's1s2')
+    fig_s1 = s1_1d_control_plots(dst, fout, plots_dir, opt_dict, 's1s2', label_fout)
     pp.savefig(fig_s1)
-    fig_s2, fig_s2_2 = s2_1d_control_plots(dst, plots_dir, opt_dict, 's1s2')
+    fig_s2, fig_s2_2 = s2_1d_control_plots(dst, fout, plots_dir, opt_dict, 's1s2',  label_fout)
     pp.savefig(fig_s2)
     pp.savefig(fig_s2_2)
     #s1_1D_control_plots(plots_dir, dst_r, opt_dict, f'r_{rfid}')

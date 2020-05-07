@@ -79,7 +79,7 @@ def load_data(fout, dir_in, run):
     print(num_of_evts)
     fout.write(f"dst_entries {str(len(dst))}\n")
     fout.write(f"time_run {time_run}\n")
-    fout.write(f"s2_tot {num_of_S2s} \n")
+    fout.write(f"s2_tot {num_of_S2s}\n")
     fout.write(f"evt_tot {num_of_evts}\n")
 
     # compute number of s1 and s2
@@ -89,6 +89,7 @@ def load_data(fout, dir_in, run):
     s2_num = df.nS2.values
     fout.write(f"num_of_ev_check {tot_ev}\n")
 
+    s1_0 = np.count_nonzero(s1_num == 0)
     s1_1 = np.count_nonzero(s1_num == 1)
     s1_2 = np.count_nonzero(s1_num == 2)
     s1_3 = np.count_nonzero(s1_num == 3)
@@ -96,6 +97,7 @@ def load_data(fout, dir_in, run):
     s1_5 = np.count_nonzero(s1_num == 5)
     s1_6 = np.count_nonzero(s1_num == 6)
 
+    s2_0 = np.count_nonzero(s2_num == 0)
     s2_1 = np.count_nonzero(s2_num == 1)
     s2_2 = np.count_nonzero(s2_num == 2)
     s2_3 = np.count_nonzero(s2_num == 3)
@@ -105,49 +107,54 @@ def load_data(fout, dir_in, run):
     s2_7 = np.count_nonzero(s2_num == 7)
     s2_8 = np.count_nonzero(s2_num == 8)
 
-    fout.write(f'eff_1s1  {s1_1 /tot_ev*100:.5f} \n')
-    fout.write(f'eff_1s1_u  {error_eff(tot_ev, s1_1 /tot_ev)*100:.5f} \n')
+    fout.write(f'eff_0s1  {s1_0 /tot_ev*100:.5f}\n')
+    fout.write(f'eff_0s1_u  {error_eff(tot_ev, s1_0 /tot_ev)*100:.5f}\n')
 
-    fout.write(f'eff_2s1  {s1_2 /tot_ev*100:.5f} \n')
-    fout.write(f'eff_2s1_u  {error_eff(tot_ev, s1_2 /tot_ev)*100:.5f} \n')
+    fout.write(f'eff_1s1  {s1_1 /tot_ev*100:.5f}\n')
+    fout.write(f'eff_1s1_u  {error_eff(tot_ev, s1_1 /tot_ev)*100:.5f}\n')
 
-    fout.write(f'eff_3s1  {s1_3 /tot_ev*100:.5f} \n')
-    fout.write(f'eff_3s1_u  {error_eff(tot_ev, s1_3 /tot_ev)*100:.5f} \n')
+    fout.write(f'eff_2s1  {s1_2 /tot_ev*100:.5f}\n')
+    fout.write(f'eff_2s1_u  {error_eff(tot_ev, s1_2 /tot_ev)*100:.5f}\n')
 
-    fout.write(f'eff_4s1  {s1_4 /tot_ev*100:.5f} \n')
-    fout.write(f'eff_4s1_u  {error_eff(tot_ev, s1_4 /tot_ev)*100:.5f} \n')
+    fout.write(f'eff_3s1  {s1_3 /tot_ev*100:.5f}\n')
+    fout.write(f'eff_3s1_u  {error_eff(tot_ev, s1_3 /tot_ev)*100:.5f}\n')
 
-    fout.write(f'eff_5s1  {s1_5 /tot_ev*100:.5f} \n')
-    fout.write(f'eff_5s1_u  {error_eff(tot_ev, s1_5 /tot_ev)*100:.5f} \n')
+    fout.write(f'eff_4s1  {s1_4 /tot_ev*100:.5f}\n')
+    fout.write(f'eff_4s1_u  {error_eff(tot_ev, s1_4 /tot_ev)*100:.5f}\n')
 
-    fout.write(f'eff_6s1  {s1_6 /tot_ev*100:.5f} \n')
-    fout.write(f'eff_6s1_u  {error_eff(tot_ev, s1_6 /tot_ev)*100:.5f} \n')
+    fout.write(f'eff_5s1  {s1_5 /tot_ev*100:.5f}\n')
+    fout.write(f'eff_5s1_u  {error_eff(tot_ev, s1_5 /tot_ev)*100:.5f}\n')
+
+    fout.write(f'eff_6s1  {s1_6 /tot_ev*100:.5f}\n')
+    fout.write(f'eff_6s1_u  {error_eff(tot_ev, s1_6 /tot_ev)*100:.5f}\n')
 
 # s2 eff
+    fout.write(f'eff_0s2  {s2_0 /tot_ev*100:.5f}\n')
+    fout.write(f'eff_0s2_u  {error_eff(tot_ev, s2_0/tot_ev)*100:.5f}\n')
 
-    fout.write(f'eff_1s2  {s2_1 /tot_ev*100:.5f} \n')
-    fout.write(f'eff_1s2_u  {error_eff(tot_ev, s2_1/tot_ev)*100:.5f} \n')
+    fout.write(f'eff_1s2  {s2_1 /tot_ev*100:.5f}\n')
+    fout.write(f'eff_1s2_u  {error_eff(tot_ev, s2_1/tot_ev)*100:.5f}\n')
 
-    fout.write(f'eff_2s2  {s2_2 /tot_ev*100:.5f} \n')
-    fout.write(f'eff_2s2_u  {error_eff(tot_ev, s2_2/tot_ev)*100:.5f} \n')
+    fout.write(f'eff_2s2  {s2_2 /tot_ev*100:.5f}\n')
+    fout.write(f'eff_2s2_u  {error_eff(tot_ev, s2_2/tot_ev)*100:.5f}\n')
 
-    fout.write(f'eff_3s2  {s2_3 /tot_ev*100:.5f} \n')
-    fout.write(f'eff_3s2_u  {error_eff(tot_ev, s2_3/tot_ev)*100:.5f} \n')
+    fout.write(f'eff_3s2  {s2_3 /tot_ev*100:.5f}\n')
+    fout.write(f'eff_3s2_u  {error_eff(tot_ev, s2_3/tot_ev)*100:.5f}\n')
 
-    fout.write(f'eff_4s2  {s2_4 /tot_ev*100:.5f} \n')
-    fout.write(f'eff_4s2_u  {error_eff(tot_ev, s2_4/tot_ev)*100:.5f} \n')
+    fout.write(f'eff_4s2  {s2_4 /tot_ev*100:.5f}\n')
+    fout.write(f'eff_4s2_u  {error_eff(tot_ev, s2_4/tot_ev)*100:.5f}\n')
 
-    fout.write(f'eff_5s2  {s2_5 /tot_ev*100:.5f} \n')
-    fout.write(f'eff_5s2_u  {error_eff(tot_ev, s2_5/tot_ev)*100:.5f} \n')
+    fout.write(f'eff_5s2  {s2_5 /tot_ev*100:.5f}\n')
+    fout.write(f'eff_5s2_u  {error_eff(tot_ev, s2_5/tot_ev)*100:.5f}\n')
 
-    fout.write(f'eff_6s2  {s2_6 /tot_ev*100:.5f} \n')
-    fout.write(f'eff_6s2_u  {error_eff(tot_ev, s2_6/tot_ev)*100:.5f} \n')
+    fout.write(f'eff_6s2  {s2_6 /tot_ev*100:.5f}\n')
+    fout.write(f'eff_6s2_u  {error_eff(tot_ev, s2_6/tot_ev)*100:.5f}\n')
 
-    fout.write(f'eff_7s2  {s2_7 /tot_ev*100:.5f} \n')
-    fout.write(f'eff_7s2_u  {error_eff(tot_ev, s2_7/tot_ev)*100:.5f} \n')
+    fout.write(f'eff_7s2  {s2_7 /tot_ev*100:.5f}\n')
+    fout.write(f'eff_7s2_u  {error_eff(tot_ev, s2_7/tot_ev)*100:.5f}\n')
 
-    fout.write(f'eff_8s2  {s2_8 /tot_ev*100:.5f} \n')
-    fout.write(f'eff_8s2_u  {error_eff(tot_ev, s2_8/tot_ev)*100:.5f} \n')
+    fout.write(f'eff_8s2  {s2_8 /tot_ev*100:.5f}\n')
+    fout.write(f'eff_8s2_u  {error_eff(tot_ev, s2_8/tot_ev)*100:.5f}\n')
 
 
     return dst
@@ -174,8 +181,8 @@ def s1s2_selection(dst, fout, dst_out_dir, run, rmax, save=False):
     fout.write(f'ev_1s1 {s1_ev }\n')
     fout.write(f'ev_1s1s2 {s1s2_ev }\n')
 
-    fout.write(f'eff_1s1 {eff_s1*100:.5f}\n')
-    fout.write(f'eff_1s1_u {error_eff(tot_ev, s1_ev/tot_ev)*100:.5f}\n')
+    fout.write(f'eff_1s1_check {eff_s1*100:.5f}\n')
+    fout.write(f'eff_1s1_u_check {error_eff(tot_ev, s1_ev/tot_ev)*100:.5f}\n')
 
     fout.write(f'eff_1s1s2 {eff_s2*100:.5f}\n')
     fout.write(f'eff_1s1s2_u {error_eff(tot_ev, s1s2_ev/tot_ev)*100:.5f}\n')
@@ -208,7 +215,7 @@ def radial_selection(dst, fout, dst_out_dir, run, rfid , save=False):
 
     #print(f'Rel_eff_R_{rfid} = {np.round(eff*100,2)}%  ({rfid_ev} / {tot_ev})\n')
     fout.write(f'ev_r_fid {rfid_ev}\n')
-    fout.write(f'rel_eff_r_{rfid} {eff*100:.5f} \n')
+    fout.write(f'rel_eff_r_{rfid} {eff*100:.5f}\n')
     fout.write(f'rel_eff_r_{rfid}_u {error_eff(tot_ev, eff)*100:.5f}\n')
 
     fout.write(f's1e_mean {s1e_mean:3f}\n')
@@ -235,9 +242,9 @@ def energy_selection(dst, opt_dict, fout, dst_out_dir, run, save=False):
     energy_ev  = dst_e.event.nunique()
     eff        = energy_ev/tot_ev
 
-    print(f'rel_eff_e {np.round(eff*100,2)} \n')
+    print(f'rel_eff_e {np.round(eff*100,2)}\n')
 
-    fout.write(f'rel_eff_e {eff*100:.5f} \n')
+    fout.write(f'rel_eff_e {eff*100:.5f}\n')
     fout.write(f'rel_eff_e_u {error_eff(tot_ev, eff)*100:.5f}\n')
 
     if save:
