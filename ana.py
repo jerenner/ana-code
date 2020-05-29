@@ -34,12 +34,20 @@ def main(args = None):
 
     dir_out = opt_dict['dir_out'] + '/'+ opt_dict["run"]
     dst_out_dir = opt_dict['dir_out'] + '/'+ opt_dict["run"] +'/kdst-reduced/'
+
+    recreate_dir   = opt_dict['recreate_dir']
+
+    if(recreate_dir == 'y'):
+        print(f're-creating dirs!')
+    else:
+        print(f'Not re-creating dirs!')
+
     plots_dir   = opt_dict['dir_out'] + '/'+ opt_dict["run"] + '/plots/'
     maps_dir    = opt_dict['dir_out'] + '/'+ opt_dict["run"] + '/maps/'
     file_in     = dst_out_dir +  'reduced_' + run + '_' + opt_dict["file_in"]
 
-    create_dirs(dst_out_dir)
-    create_dirs(plots_dir)
+    create_dirs(dst_out_dir, recreate_dir)
+    create_dirs(plots_dir,   recreate_dir)
 
     #------ Analisis: create reduced 1s1 and 1s2 dst for trigger 2 R<70 --------
     #rmax = int(opt_dict['rmax'])
@@ -54,15 +62,15 @@ def main(args = None):
     fout = open(fout_name,'w')
     #fout.write(f"----------  Summary of run {run}  ----------\n")
     fout.write(f'run {run}\n')
-    dst_full, dst_s1s2, dst_r, dst_e = ana_create_reduced_and_efi(fout, dst_out_dir, plots_dir, dir_input, run, opt_dict)
+    #dst_full, dst_s1s2, dst_r, dst_e = ana_create_reduced_and_efi(fout, dst_out_dir, plots_dir, dir_input, run, opt_dict)
     #ana_s1_s2_control_plots(dst_full, fout, plots_dir, opt_dict, 'run'+str(run)+'_full_',                   'full')
-    ana_s1_s2_control_plots(dst_s1s2, fout, plots_dir, opt_dict, 'run'+str(run)+'_s1s2_rmax'+str(rmax)+'_', 's1s2')
-    ana_s1_s2_control_plots(dst_r,    fout, plots_dir, opt_dict, 'run'+str(run)+'_rfid'+str(rfid)+'_',      'rfid')
-    ana_s1_s2_control_plots(dst_e,    fout, plots_dir, opt_dict, 'run'+str(run)+'_esig_',                   'esig')
+    #ana_s1_s2_control_plots(dst_s1s2, fout, plots_dir, opt_dict, 'run'+str(run)+'_s1s2_rmax'+str(rmax)+'_', 's1s2')
+    #ana_s1_s2_control_plots(dst_r,    fout, plots_dir, opt_dict, 'run'+str(run)+'_rfid'+str(rfid)+'_',      'rfid')
+    #ana_s1_s2_control_plots(dst_e,    fout, plots_dir, opt_dict, 'run'+str(run)+'_esig_',                   'esig')
 
     ##
-    #dst = pd.read_hdf(file_in)
-    #print(file_in)
+    dst_r = pd.read_hdf(file_in)
+    print(file_in)
     ana_v_ereso_lt_raw(dst_r, fout, plots_dir, opt_dict)
 
     #------ Analisis: read reduced dst and make plots -------

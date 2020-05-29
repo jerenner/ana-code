@@ -19,7 +19,7 @@ def save_dst_to_file(dst, dir_file):
     store.close()
 
 
-def create_dirs(dir):
+def create_dirs(dir, recreate):
     """
     Input directory name
     Output creates directory
@@ -36,8 +36,17 @@ def create_dirs(dir):
     print(overwrite)
     '''
 
+    if recreate == 'y':
+        overwrite = True
+    else:
+        overwrite = False
+    print(overwrite)
+
     # big production
-    overwrite = 'y'
+    #overwrite = 'y'
+    # from config
+
+    print(f'in manage: {overwrite}')
 
     if os.path.exists(dir) and overwrite:
         shutil.rmtree(dir)
