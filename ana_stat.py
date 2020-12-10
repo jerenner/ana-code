@@ -81,3 +81,30 @@ def map_for_corr_calc_pass_e0(map):
     print(f'corr = {correlation}')
 
     return correlation
+
+
+"""
++- before the term 2rho would be negative when the variables a positively correlated
+R * sqrt [ (relative_error_sigma)^2 +  (relative_error_mu)^2 - 2rho * relative_error_sigma *  relatvie_error_mu]
+
+cov = rho *a_u*a_b
+a/b
+
+cov from minuit example:
+minuit.print_matrix()
+minuit.np_covariance()[0][1]
+"""
+
+def error_on_a_fraction(a, a_u, b, b_u, cov):
+    value = a/b
+    error =  a/b * np.sqrt(( a_u / a)**2 + ( b_u/ b )**2 - 2 * cov/(np.abs(a*b)))
+    print(f'value = {value} +- {error}')
+    return error
+
+
+
+def error_on_a_fraction2(a, a_u, b, b_u):
+    value = a/b
+    error =  a/b * np.sqrt(( a_u/a)**2 + (b_u/b)**2)
+    print(f'value = {value} +- {error}')
+    return error

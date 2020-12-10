@@ -62,16 +62,18 @@ def main(args = None):
     fout = open(fout_name,'w')
     #fout.write(f"----------  Summary of run {run}  ----------\n")
     fout.write(f'run {run}\n')
-    #dst_full, dst_s1s2, dst_r, dst_e = ana_create_reduced_and_efi(fout, dst_out_dir, plots_dir, dir_input, run, opt_dict)
-    #ana_s1_s2_control_plots(dst_full, fout, plots_dir, opt_dict, 'run'+str(run)+'_full_',                   'full')
-    #ana_s1_s2_control_plots(dst_s1s2, fout, plots_dir, opt_dict, 'run'+str(run)+'_s1s2_rmax'+str(rmax)+'_', 's1s2')
-    #ana_s1_s2_control_plots(dst_r,    fout, plots_dir, opt_dict, 'run'+str(run)+'_rfid'+str(rfid)+'_',      'rfid')
-    #ana_s1_s2_control_plots(dst_e,    fout, plots_dir, opt_dict, 'run'+str(run)+'_esig_',                   'esig')
 
-    ##
-    dst_r = pd.read_hdf(file_in)
-    print(file_in)
-    ana_v_ereso_lt_raw(dst_r, fout, plots_dir, opt_dict)
+    # First look at data
+    dst_full, dst_s1s2, dst_r, dst_e = ana_create_reduced_and_efi(fout, dst_out_dir, plots_dir, dir_input, run, opt_dict)
+    ana_s1_s2_control_plots(dst_full, fout, plots_dir, opt_dict, 'run'+str(run)+'_full_',                   'full')
+    ana_s1_s2_control_plots(dst_s1s2, fout, plots_dir, opt_dict, 'run'+str(run)+'_s1s2_rmax'+str(rmax)+'_', 's1s2')
+    ana_s1_s2_control_plots(dst_r,    fout, plots_dir, opt_dict, 'run'+str(run)+'_rfid'+str(rfid)+'_',      'rfid')
+    ana_s1_s2_control_plots(dst_e,    fout, plots_dir, opt_dict, 'run'+str(run)+'_esig_',                   'esig')
+
+    ## Look back to dst with fiducial cuts
+    #dst_r = pd.read_hdf(file_in)
+    #print(f'\nAnalizing file: {file_in}\n')
+    #ana_v_ereso_lt_raw(dst_r, fout, plots_dir, opt_dict)
 
     #------ Analisis: read reduced dst and make plots -------
     #dst = pd.read_hdf(file_in)
